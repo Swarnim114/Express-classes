@@ -1,6 +1,8 @@
 const express = require('express');
-const app = express();  //returns object
-//has multiple properties
+const app = express();
+const port = 3001;
+
+app.use(express.json());
 
 let courses = [
     { id: 1, name: "java" },
@@ -12,6 +14,15 @@ app.get('/courses', (req, res) => {
     res.json(courses);
 });
 
-app.listen(3000, () => {
-    console.log('Server is running on port 3000');
+app.post('/courses', (req, res) => {
+    const newCourse = {
+        id: courses.length + 1,
+        name: req.body.name
+    };
+    courses.push(newCourse);
+    res.status(201).json(newCourse);
+});
+
+app.listen(port, () => {
+    console.log("Server started");
 });
